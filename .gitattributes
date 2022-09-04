@@ -1,8 +1,9 @@
 * text=auto
 
 *.blade.php diff=html
-*.css diff=css
-*.html diff=html
+*.css linguist-detectable=false
+*.html linguist-detectable=false
+*.js linguist-detectable=false
 *.md diff=markdown
 *.php diff=php
 

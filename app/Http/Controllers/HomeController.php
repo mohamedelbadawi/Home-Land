@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\BuildingRepositoryInterface;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,9 +12,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    private $buildingRepository;
+
+    public function __construct(BuildingRepositoryInterface $buildingRepository)
     {
-        // $this->middleware('auth');
+        $this->buildingRepository = $buildingRepository;
     }
 
     /**
@@ -23,6 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('front.home');
+        $buildings = $this->buildingRepository->paginate(12);
+        return view('front.home', compact('buildings'));
     }
 }
