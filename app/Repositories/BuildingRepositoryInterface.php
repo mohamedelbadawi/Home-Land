@@ -14,6 +14,7 @@ interface BuildingRepositoryInterface
     public function approvedCount();
     public function canceledCount();
     public function pendingCount();
-    public function where($key,$value);
+    public function where($key, $value);
     public function pendingBuildings();
+    public function approvedBuildings();
 }

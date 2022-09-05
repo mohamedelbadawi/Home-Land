@@ -9,6 +9,9 @@
     <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico" />
     <link href="{{ asset('assets/back/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/back/js/loader.js') }}"></script>
+    <link href="{{ asset('assets/back/css/file-upload-with-preview.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/css/fileinput.min.css" media="all"
+        rel="stylesheet" type="text/css" />
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
@@ -24,7 +27,12 @@
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/dt-global_style.cs') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link href="{{ asset('assets/back/css/animate.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/css/bootstrap-select.min.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/custom_dt_html5.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/dt-global_style.css') }}">
 </head>
 
 <body class="dashboard-analytics">
@@ -48,7 +56,10 @@
         <div id="content" class="main-content">
             @include('layouts.partials.admin_side')
             <!-- END SIDEBAR -->
-
+        
+            @if ($errors->any())
+                {{ implode('', $errors->all('<div>:message</div>')) }}
+            @endif
             @yield('content')
         </div>
     </div>
@@ -67,35 +78,18 @@
     </script>
     <script src="{{ asset('assets/back/js/custom.js') }}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
-
+    <script src="{{ asset('assets/back/js/bootstrap-select.min.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     <script src="{{ asset('assets/back/js/dashboard/dash_1.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     <script src="{{ asset('assets/back/datatable/datatables.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script>
-        /* Custom filtering function which will search data in column four between two values */
-
-        $(document).ready(function() {
-            var table = $('#datetable').DataTable({
-                "oLanguage": {
-                    "oPaginate": {
-                        "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                        "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
-                    },
-                    "sInfo": "Showing page _PAGE_ of _PAGES_",
-                    "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                    "sSearchPlaceholder": "Search...",
-                    "sLengthMenu": "Results :  _MENU_",
-                },
-                "stripeClasses": [],
-                "lengthMenu": [7, 10, 20, 50],
-                "pageLength": 7
-            });
-            // Event listener to the two range filtering inputs to redraw on input
-
-        });
-    </script>
+    <script src="{{ asset('assets/back/js/file-upload/file-upload-with-preview.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/filetype.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/piexif.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/sortable.min.js"
+        type="text/javascript"></script>
     @yield('js')
 </body>
 

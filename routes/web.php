@@ -28,4 +28,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.home');
     Route::get('/requests', [BuildingController::class, 'getRequests'])->name('building.requests');
+    Route::get('/buildings', [BuildingController::class, 'getApprovedBuildings'])->name('building.approved');
+    Route::post('/buildings/create', [BuildingController::class, 'addBuilding'])->name('building.add');
 });

@@ -6,16 +6,17 @@
 
         <div class="page-header">
             <div class="page-title">
-                <h3>Pending Requests</h3>
-
+                <h3>Approved buildings</h3>
             </div>
         </div>
 
         <div class="row layout-top-spacing" id="cancel-row">
-
             <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                 <div class="widget-content widget-content-area br-6">
                     <div class="table-responsive mb-4 mt-4">
+                        <div class="row mb-3 d-flex justify-content-end mr-5">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#create">Add building</button>
+                        </div>
                         <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                             <thead>
                                 <tr>
@@ -29,15 +30,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($requests as $request)
+                                @foreach ($buildings as $building)
                                     <tr>
-                                        <td>{{ $request->name }}</td>
-                                        <td>{{ $request->name }}</td>
-                                        <td>{{ $request->agent->name }}</td>
-                                        <td>{{ $request->price }}</td>
-                                        <td>{{ $request->sq }}</td>
+                                        <td>{{ $building->name }}</td>
+                                        <td>{{ $building->name }}</td>
+                                        <td>{{ $building->agent->name }}</td>
+                                        <td>{{ $building->price }}</td>
+                                        <td>{{ $building->sq }}</td>
                                         <td><button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#slideupModal-{{ $request->id }}">View</button></td>
+                                                data-target="#slideupModal-{{ $building->id }}">View</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -54,15 +55,113 @@
 
 
 
+    <div id="create" class="modal animated slideInUp custo-slideInUp" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Building</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="feather feather-x">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('building.add') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" placeholder="price" name="price">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" placeholder="sq" name="sq">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" placeholder="beds" name="beds">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" placeholder="baths" name="baths">
+                        </div>
+                        <div class="form-group">
+
+                            <select class="selectpicker" data-live-search="true" name="city_id">
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
+
+                            </select>
+
+                            <select class="selectpicker m-1" data-live-search="true" name="country_id">
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                @endforeach
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="selectpicker form-control" name="type" data-live-search="true">
+
+                                <option value="rent">rent</option>
+                                <option value="sell">sell</option>
 
 
-    @foreach ($requests as $request)
-        <div id="slideupModal-{{ $request->id }}" class="modal animated slideInUp custo-slideInUp" role="dialog">
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <textarea name="description" id="" cols="50" class="form-control" rows="5"
+                                placeholder="description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Main Image</label>
+                            <input id="input-id" class="form-control" name="image" type="file" class="file"
+                                data-preview-file-type="text">
+                        </div>
+                        <div class="modal-footer md-button">
+                            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>
+                                Discard</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @foreach ($buildings as $building)
+        <div id="slideupModal-{{ $building->id }}" class="modal animated slideInUp custo-slideInUp" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ $request->name }}</h5>
+                        <h5 class="modal-title">{{ $building->name }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -74,14 +173,12 @@
                     </div>
                     <div class="modal-body">
                         <h6>
-
-                            {{ $request->name }} , beds: {{ $request->beds }} , baths: {{ $request->baths }} , price:
-                            {{ $request->price }}
+                            {{ $building->name }} , beds: {{ $building->beds }} , baths: {{ $building->baths }} , price:
+                            {{ $building->price }}
                             <br>
-
                         </h6>
                         <p class="modal-text">
-                            {{ $request->description }}
+                            {{ $building->description }}
                         </p>
                     </div>
                     <div class="modal-footer md-button">
@@ -106,6 +203,9 @@
 @endsection
 
 @section('js')
+    <script>
+        var secondUpload = new FileUploadWithPreview('mySecondImage')
+    </script>
     {{-- <script src="{{ asset('assets/back/datatable/datatables.js') }}"></script> --}}
     <script src="{{ asset('assets/back/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('assets/back/datatable/button-ext/jszip.min.js') }}"></script>

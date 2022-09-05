@@ -17,7 +17,7 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     }
     public function all(): Collection
     {
-        return $this->model->with(['user', 'city', 'country'])->all();
+        return $this->model->with(['agent', 'city', 'country'])->get();
     }
     public function take($number): Collection
     {
@@ -45,6 +45,10 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     }
     public function pendingBuildings()
     {
-        return $this->model->where('status', 'pending')->get();
+        return $this->model->with(['agent'])->where('status', 'pending')->get();
+    }
+    public function approvedBuildings()
+    {
+        return $this->model->with(['agent'])->where('status', 'approved')->get();
     }
 }
