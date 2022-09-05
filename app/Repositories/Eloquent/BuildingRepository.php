@@ -7,7 +7,7 @@ use App\Repositories\BuildingRepositoryInterface;
 use App\Repositories\Eloquent\BaseRepository;
 
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Database\Eloquent\Model;
 
 class BuildingRepository extends BaseRepository implements BuildingRepositoryInterface
 {
@@ -45,10 +45,19 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     }
     public function pendingBuildings()
     {
-        return $this->model->with(['agent'])->where('status', 'pending')->get();
+        return $this->model->with(['agent'])->where('status', 'pending')->orderBy('created_at', 'desc')->get();
     }
     public function approvedBuildings()
     {
-        return $this->model->with(['agent'])->where('status', 'approved')->get();
+        return $this->model->with(['agent'])->where('status', 'approved')->orderBy('created_at', 'desc')->get();
+    }
+
+    public function create(array $attributes)
+    {
+        return $this->model->create($attributes);
+    }
+    public function update($data, Building $building)
+    {
+        return $building->update($data);
     }
 }

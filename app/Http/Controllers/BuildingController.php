@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addBuildingRequest;
+use App\Models\Building;
 use App\Repositories\BuildingRepositoryInterface;
 use App\Repositories\CityRepositoryInterface;
 use App\Repositories\CountryRepositoryInterface;
 use App\Repositories\Eloquent\BuildingRepository;
 use App\Repositories\Eloquent\CityRepository;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BuildingController extends Controller
 {
@@ -36,6 +40,27 @@ class BuildingController extends Controller
 
     public function addBuilding(addBuildingRequest $request)
     {
-        dd($request);
+        try {
+
+            $atrr = $request->except('image');
+            $atrr['user_id'] = Auth::id();
+            $this->buildingRepository->create($atrr);
+            Alert::success('Congrats', 'Your request is submitted');
+        } catch (Exception $e) {
+            Alert::error('Error', $e->getMessage());
+        }
+        return redirect()->route('building.requests');
+    }
+
+
+    public function updateBuildingStatus(Request $request, Building $building)
+    {
+        try {
+            $this->buildingRepository->update(['status' => $request->status], $building);
+            Alert::success('Congrats', 'building status updated successfully');
+        } catch (Exception $e) {
+            Alert::error('Error', $e->getMessage());
+        }
+        return redirect()->route('building.requests');
     }
 }

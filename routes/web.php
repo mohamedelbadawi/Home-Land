@@ -30,4 +30,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/requests', [BuildingController::class, 'getRequests'])->name('building.requests');
     Route::get('/buildings', [BuildingController::class, 'getApprovedBuildings'])->name('building.approved');
     Route::post('/buildings/create', [BuildingController::class, 'addBuilding'])->name('building.add');
+    Route::post('/buildings/updateStatus/{building}', [BuildingController::class, 'updateBuildingStatus'])->name('building.updateStatus');
 });

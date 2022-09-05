@@ -36,7 +36,7 @@
 </head>
 
 <body class="dashboard-analytics">
-
+    @include('sweetalert::alert')
     <!-- BEGIN LOADER -->
     <div id="load_screen">
         <div class="loader">
@@ -56,10 +56,18 @@
         <div id="content" class="main-content">
             @include('layouts.partials.admin_side')
             <!-- END SIDEBAR -->
-        
-            @if ($errors->any())
-                {{ implode('', $errors->all('<div>:message</div>')) }}
-            @endif
+
+            <div class="text-center" style="width: 300px;height:30px">
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger mb-1" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ...
+                                </svg></button>
+                            {{ $error }}</button>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
             @yield('content')
         </div>
     </div>

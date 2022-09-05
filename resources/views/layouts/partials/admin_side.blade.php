@@ -7,9 +7,9 @@
     <nav id="compactSidebar">
         <ul class="menu-categories">
 
-            <li class="menu">
+            <li class="menu @if (Route::currentRouteName()=='admin.home')  active @endif">
 
-                <a href="" data-active="false" class="menu-toggle">
+                <a href="{{route('admin.home')}}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -30,32 +30,9 @@
             </li>
 
 
-            <li class="menu">
 
-
-                <a href="/category/index" data-active="false" class="menu-toggle">
-                    <div class="base-menu">
-                        <div class="base-icons">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                class="bi bi-collection-fill" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zM2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1z" />
-                            </svg>
-                        </div>
-                        <span>Categories</span>
-                    </div>
-                </a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-chevron-left">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </li>
-
-
-            <li class="menu active">
-                <a href="/books/index" data-active="true" class="menu-toggle">
+            <li class="menu @if (Route::currentRouteName()=='building.requests')  active @endif">
+                <a href="{{ route('building.requests') }}" data-active="true" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -75,12 +52,12 @@
                 </svg>
             </li>
 
-            <li class="menu ">
-                <a href="{{route('building.approved')}}" data-active="true" class="menu-toggle">
+            <li class="menu @if (Route::currentRouteName()=='building.approved')  active @endif ">
+                <a href="{{ route('building.approved') }}" data-active="true" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" stroke="currentColor" fill="currentColor"
-                                class="bi bi-building text-success" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" stroke="currentColor"
+                                fill="currentColor" class="bi bi-building text-success" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
                                     d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z" />
                                 <path

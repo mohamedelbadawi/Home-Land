@@ -84,10 +84,28 @@
                             {{ $request->description }}
                         </p>
                     </div>
-                    <div class="modal-footer md-button">
-                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
+
+                    <form action="{{route('building.updateStatus',$request->id)}}" method="post">
+                        @csrf
+                        <div class="form-group  ml-2" style="width: 90%">
+                            <select class="selectpicker form-control" name="status" data-live-search="true">
+
+                                <option class="text-warning" value="pending" {{ $request->status == 'pending' }}>Pending
+                                </option>
+                                <option class="text-danger" value="canceled" {{ $request->status == 'canceled' }}>Canceled
+                                </option>
+                                <option class="text-success" value="approved" {{ $request->status == 'approved' }}>Approved
+                                </option>
+
+
+                            </select>
+                        </div>
+
+                        <div class="modal-footer md-button">
+                            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -71,7 +71,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('building.add') }}" method="post">
+                    <form action="{{ route('building.add') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="name" name="name">
