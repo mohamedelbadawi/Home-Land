@@ -11,4 +11,9 @@ interface BuildingRepositoryInterface
     public function all(): Collection;
     public function take($number): Collection;
     public function paginate($number);
+    public function approvedCount();
+    public function canceledCount();
+    public function pendingCount();
+    public function where($key,$value);
+    public function pendingBuildings();
 }

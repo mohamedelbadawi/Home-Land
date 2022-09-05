@@ -4,12 +4,12 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Building;
 use App\Repositories\BuildingRepositoryInterface;
-use App\Repositories\Eloquent\BaseRepository as EloquentBaseRepository;
-use BaseRepository;
+use App\Repositories\Eloquent\BaseRepository;
+
 use Illuminate\Database\Eloquent\Collection;
 
 
-class BuildingRepository extends EloquentBaseRepository implements BuildingRepositoryInterface
+class BuildingRepository extends BaseRepository implements BuildingRepositoryInterface
 {
     public function __construct(Building $model)
     {
@@ -26,5 +26,25 @@ class BuildingRepository extends EloquentBaseRepository implements BuildingRepos
     public function paginate($number)
     {
         return $this->model->with(['agent', 'city', 'country'])->paginate($number);
+    }
+    public function approvedCount()
+    {
+        return $this->model->where('status', 'approved')->count();
+    }
+    public function canceledCount()
+    {
+        return $this->model->where('status', 'canceled')->count();
+    }
+    public function pendingCount()
+    {
+        return $this->model->where('status', 'pending')->count();
+    }
+    public function where($key, $value)
+    {
+        return $this->model->where($key, $value)->get();
+    }
+    public function pendingBuildings()
+    {
+        return $this->model->where('status', 'pending')->get();
     }
 }

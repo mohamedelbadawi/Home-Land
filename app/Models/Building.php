@@ -14,13 +14,17 @@ class Building extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function City()
+    public function city()
     {
         return $this->belongsTo(City::class);
     }
 
-    public function Country()
+    public function country()
     {
         return $this->belongsTo(Country::class);
+    }
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

@@ -28,6 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         $buildings = $this->buildingRepository->paginate(12);
+        
         return view('front.home', compact('buildings'));
     }
 }

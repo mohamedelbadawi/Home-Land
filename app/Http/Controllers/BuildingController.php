@@ -17,4 +17,10 @@ class BuildingController extends Controller
     {
         $buildings = $this->buildingRepository->all();
     }
+
+    public function getRequests()
+    {
+        $requests = $this->buildingRepository->pendingBuildings();
+        return view('back.request', compact('requests'));
+    }
 }

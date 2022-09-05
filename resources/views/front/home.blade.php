@@ -93,7 +93,7 @@
                                     <span class="offer-type bg-danger">{{ $building->type }}</span>
 
                                 </div>
-                                <img src="images/img_1.jpg" alt="Image" class="img-fluid">
+                                <img src="/images/img_1.jpg" alt="Image" class="img-fluid">
                             </a>
                             <div class="p-4 property-body">
                                 <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
