@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,12 +24,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => "auth"], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.home');
     Route::get('/requests', [BuildingController::class, 'getRequests'])->name('building.requests');
-    Route::get('/buildings', [BuildingController::class, 'getApprovedBuildings'])->name('building.approved');
+    Route::get('/buildings', [BuildingController::class, 'buildings'])->name('building.index');
+    Route::get('/getApproved', [BuildingController::class, 'getApprovedBuildings'])->name('building.approved');
     Route::post('/buildings/create', [BuildingController::class, 'addBuilding'])->name('building.add');
     Route::post('/buildings/updateStatus/{building}', [BuildingController::class, 'updateBuildingStatus'])->name('building.updateStatus');
 });

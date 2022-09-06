@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/aos.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/style.css') }}">
+    @livewireStyles
 
 </head>
 
@@ -63,6 +64,8 @@
     <script src="{{ asset('assets/front/js/aos.js') }}"></script>
 
     <script src="{{ asset('assets/front/js/main.js') }}"></script>
+    @livewireScripts
+
 
 </body>
 

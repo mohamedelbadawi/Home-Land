@@ -21,18 +21,22 @@
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-    <link href="{{ asset('asset/back/plugins/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/back/css/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css"
         class="dashboard-analytics" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/datatables.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/dt-global_style.cs') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/dt-global_style.cs') }}"> --}}
     <link href="{{ asset('assets/back/css/animate.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/css/bootstrap-select.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/custom_dt_html5.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/dt-global_style.css') }}">
+
+    @livewireStyles
+ 
+
+    @yield('css')
 </head>
 
 <body class="dashboard-analytics">
@@ -91,14 +95,16 @@
     <script src="{{ asset('assets/back/js/dashboard/dash_1.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     <script src="{{ asset('assets/back/datatable/datatables.js') }}"></script>
-    <script src="{{ asset('assets/back/js/file-upload/file-upload-with-preview.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/back/js/file-upload/file-upload-with-preview.min.js') }}"></script> --}}
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/filetype.min.js"
         type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/piexif.min.js"
         type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/sortable.min.js"
         type="text/javascript"></script>
-    @yield('js')
+        
+        @yield('js')
+        @livewireScripts
 </body>
 
 </html>

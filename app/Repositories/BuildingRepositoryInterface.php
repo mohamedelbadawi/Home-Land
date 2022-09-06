@@ -19,4 +19,5 @@ interface BuildingRepositoryInterface
     public function pendingBuildings();
     public function approvedBuildings();
     public function update($data, Building $building);
+    public function randomApprovedBuildings($number);
 }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Building;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Image;
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
@@ -26,11 +27,12 @@ class BuildingSeeder extends Seeder
         $users = User::role('agent')->pluck('id');
         $types = ['sell', 'rent'];
         $statues = ['pending', 'canceled', 'approved'];
-        for ($i = 0; $i < 500; $i++) {
-            Building::create([
+        for ($i = 0; $i < 10; $i++) {
+            $building = Building::create([
                 'name' => $faker->streetName,
                 'type' => $types[array_rand($types)],
                 'beds' => rand(1, 15),
+                'address' => $faker->address(),
                 'description' => $faker->paragraph,
                 'sq' => rand(1, 500),
                 'price' => rand(100, 10000000),
@@ -40,6 +42,10 @@ class BuildingSeeder extends Seeder
                 'city_id' => $cities->random(),
                 'status' => $statues[array_rand($statues)]
             ]);
+            for ($i = 0; $i < 5; $i++) {
+
+                Image::create(['name' => rand(1, 12) . ".jpg", 'imageable_id' => $building->id, 'imageable_type' => Building::class]);
+            }
         }
     }
 }

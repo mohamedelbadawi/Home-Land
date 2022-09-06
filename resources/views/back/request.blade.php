@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    {{-- <div id="content" class="main-content"> --}}
     <div class="layout-px-spacing">
 
         <div class="page-header">
@@ -36,8 +35,14 @@
                                         <td>{{ $request->agent->name }}</td>
                                         <td>{{ $request->price }}</td>
                                         <td>{{ $request->sq }}</td>
-                                        <td><button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#slideupModal-{{ $request->id }}">View</button></td>
+
+                                        <td>
+                                            @can('edit building')
+                                                <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#slideupModal-{{ $request->id }}">update status</button>
+                                            @endcan
+
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -49,11 +54,6 @@
         </div>
 
     </div>
-
-
-
-
-
 
 
     @foreach ($requests as $request)
@@ -85,7 +85,7 @@
                         </p>
                     </div>
 
-                    <form action="{{route('building.updateStatus',$request->id)}}" method="post">
+                    <form action="{{ route('building.updateStatus', $request->id) }}" method="post">
                         @csrf
                         <div class="form-group  ml-2" style="width: 90%">
                             <select class="selectpicker form-control" name="status" data-live-search="true">
@@ -94,7 +94,8 @@
                                 </option>
                                 <option class="text-danger" value="canceled" {{ $request->status == 'canceled' }}>Canceled
                                 </option>
-                                <option class="text-success" value="approved" {{ $request->status == 'approved' }}>Approved
+                                <option class="text-success" value="approved" {{ $request->status == 'approved' }}>
+                                    Approved
                                 </option>
 
 
@@ -102,7 +103,8 @@
                         </div>
 
                         <div class="modal-footer md-button">
-                            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>
+                                Discard</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
@@ -124,13 +126,41 @@
 @endsection
 
 @section('js')
-    {{-- <script src="{{ asset('assets/back/datatable/datatables.js') }}"></script> --}}
+    
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/buffer.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/filetype.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/piexif.min.js"
+        type="text/javascript"></script>
+
+ 
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/sortable.min.js"
+        type="text/javascript"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/fileinput.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/locales/LANG.js"></script>
+
+
+
+    {{-- ================================================================================================================ --}}
+
+
+
+
     <script src="{{ asset('assets/back/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('assets/back/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('assets/back/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/back/datatable/button-ext/buttons.print.min.js') }}"></script>
     <script>
         $('#html5-extension').DataTable({
+
+                
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{
@@ -163,7 +193,10 @@
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
+            "pageLength": 10
         });
+
+
+        $("#input-id").fileinput();
     </script>
 @endsection

@@ -17,7 +17,7 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     }
     public function all(): Collection
     {
-        return $this->model->with(['agent', 'city', 'country'])->get();
+        return $this->model->with(['agent', 'city', 'country', 'images'])->paginate(800);
     }
     public function take($number): Collection
     {
@@ -41,15 +41,24 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     }
     public function where($key, $value)
     {
-        return $this->model->where($key, $value)->get();
+        return $this->model->where($key, $value);
+    }
+
+    public function randomApprovedBuildings($number)
+    {
+
+        return $this->model->with(['agent', 'images'])->where('status', 'approved')->paginate($number);
     }
     public function pendingBuildings()
     {
-        return $this->model->with(['agent'])->where('status', 'pending')->orderBy('created_at', 'desc')->get();
+        return $this->model->with(['agent', 'images'])->where('status', 'pending')->paginate(50);
     }
+
     public function approvedBuildings()
     {
-        return $this->model->with(['agent'])->where('status', 'approved')->orderBy('created_at', 'desc')->get();
+        return cache()->remember("buildings", 60, function () {
+            return $this->model->with(['agent', 'images'])->where('status', 'approved')->get();
+        });
     }
 
     public function create(array $attributes)

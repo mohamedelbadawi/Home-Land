@@ -33,7 +33,7 @@ class addBuildingRequest extends FormRequest
             'country_id' => 'required',
             'type' => 'required',
             'description' => 'required',
-            'image' => 'required',
+            'images' => 'required',
         ];
     }
 }

@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\addBuildingRequest;
 use App\Models\Building;
+use App\Models\Image;
 use App\Repositories\BuildingRepositoryInterface;
 use App\Repositories\CityRepositoryInterface;
 use App\Repositories\CountryRepositoryInterface;
 use App\Repositories\Eloquent\BuildingRepository;
 use App\Repositories\Eloquent\CityRepository;
+use App\traits\ImageHelper;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use DataTables;
+
 
 class BuildingController extends Controller
 {
+    use ImageHelper;
     private $buildingRepository, $cityRepository, $countryRepository;
     public function __construct(BuildingRepositoryInterface $buildingRepository, CityRepositoryInterface $cityRepository, CountryRepositoryInterface $countryRepository)
     {
@@ -29,12 +34,22 @@ class BuildingController extends Controller
         $requests = $this->buildingRepository->pendingBuildings();
         return view('back.request', compact('requests'));
     }
-    public function getApprovedBuildings()
+
+    public function buildings()
     {
-        $buildings = $this->buildingRepository->approvedBuildings();
         $cities = $this->cityRepository->all();
         $countries = $this->countryRepository->all();
-        return view('back.building', compact('buildings', 'cities', 'countries'));
+        $buildings = $this->buildingRepository->approvedBuildings();
+
+        return view('back.building', compact('cities', 'countries', 'buildings'));
+    }
+    public function getApprovedBuildings(Request $request)
+    {
+
+
+
+        $buildings = $this->buildingRepository->approvedBuildings();
+        return Datatables::of($buildings)->addIndexColumn()->make(true);
     }
 
 
@@ -42,9 +57,16 @@ class BuildingController extends Controller
     {
         try {
 
-            $atrr = $request->except('image');
+            $atrr = $request->except('images');
             $atrr['user_id'] = Auth::id();
-            $this->buildingRepository->create($atrr);
+            $building = $this->buildingRepository->create($atrr);
+            if ($request->has('images')) {
+                foreach ($request->images as $image) {
+                    $currImage = $this->uploadImage($image, 'assets/images/', 2000, $building->name);
+
+                    Image::create(['name' => $currImage, 'imageable_id' => $building->id, 'imageable_type' => Building::class]);
+                }
+            }
             Alert::success('Congrats', 'Your request is submitted');
         } catch (Exception $e) {
             Alert::error('Error', $e->getMessage());

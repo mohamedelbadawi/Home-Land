@@ -25,7 +25,8 @@
                                     <th>agent</th>
                                     <th>price</th>
                                     <th>sq</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
+
 
                                 </tr>
                             </thead>
@@ -33,14 +34,17 @@
                                 @foreach ($buildings as $building)
                                     <tr>
                                         <td>{{ $building->name }}</td>
-                                        <td>{{ $building->name }}</td>
+                                        <td> <img src="{{ asset('assets/images/' . $building->images->first()->name) }}"
+                                                alt="" style="width: 50px;height:50px;"></td>
                                         <td>{{ $building->agent->name }}</td>
                                         <td>{{ $building->price }}</td>
                                         <td>{{ $building->sq }}</td>
                                         <td><button class="btn btn-primary" data-toggle="modal"
                                                 data-target="#slideupModal-{{ $building->id }}">View</button></td>
                                     </tr>
+                                    @include('back.partials.viewBuildingModal')
                                 @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -122,10 +126,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="">Main Image</label>
-                            <input id="input-id" class="form-control" name="image" type="file" class="file"
-                                data-preview-file-type="text">
+                            <label for="">Images</label>
+                            <input id="input-id" class="form-control" multiple name="images[]" type="file"
+                                class="file" data-preview-file-type="text">
                         </div>
+
+
                         <div class="modal-footer md-button">
                             <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>
                                 Discard</button>
@@ -143,109 +149,53 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    @foreach ($buildings as $building)
-        <div id="slideupModal-{{ $building->id }}" class="modal animated slideInUp custo-slideInUp" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{ $building->name }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h6>
-                            {{ $building->name }} , beds: {{ $building->beds }} , baths: {{ $building->baths }} , price:
-                            {{ $building->price }}
-                            <br>
-                        </h6>
-                        <p class="modal-text">
-                            {{ $building->description }}
-                        </p>
-                    </div>
-                    <div class="modal-footer md-button">
-                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
-
-
-
-
-
-
-
-
-
-
-    {{-- </div> --}}
+    </div>
 @endsection
 
 @section('js')
-    <script>
-        var secondUpload = new FileUploadWithPreview('mySecondImage')
-    </script>
-    {{-- <script src="{{ asset('assets/back/datatable/datatables.js') }}"></script> --}}
     <script src="{{ asset('assets/back/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('assets/back/datatable/button-ext/jszip.min.js') }}"></script>
     <script src="{{ asset('assets/back/datatable/button-ext/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/back/datatable/button-ext/buttons.print.min.js') }}"></script>
     <script>
-        $('#html5-extension').DataTable({
-            dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
-            buttons: {
-                buttons: [{
-                        extend: 'copy',
-                        className: 'btn'
-                    },
-                    {
-                        extend: 'csv',
-                        className: 'btn'
-                    },
-                    {
-                        extend: 'excel',
-                        className: 'btn'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'btn'
-                    }
-                ]
-            },
-            "oLanguage": {
-                "oPaginate": {
-                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+        $(document).ready(function() {
+            $('#html5-extension').DataTable({
+
+
+                dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
+                buttons: {
+                    buttons: [{
+                            extend: 'copy',
+                            className: 'btn'
+                        },
+                        {
+                            extend: 'csv',
+                            className: 'btn'
+                        },
+                        {
+                            extend: 'excel',
+                            className: 'btn'
+                        },
+                        {
+                            extend: 'print',
+                            className: 'btn'
+                        }
+                    ]
                 },
-                "sInfo": "Showing page _PAGE_ of _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Search...",
-                "sLengthMenu": "Results :  _MENU_",
-            },
-            "stripeClasses": [],
-            "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+                        "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+                    },
+                    "sInfo": "Showing page _PAGE_ of _PAGES_",
+                    "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                    "sSearchPlaceholder": "Search...",
+                    "sLengthMenu": "Results :  _MENU_",
+                },
+                "lengthMenu": [7, 10, 20, 50],
+                "pageLength": 10,
+
+            });
         });
     </script>
 @endsection

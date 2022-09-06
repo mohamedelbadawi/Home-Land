@@ -7,9 +7,9 @@
     <nav id="compactSidebar">
         <ul class="menu-categories">
 
-            <li class="menu @if (Route::currentRouteName()=='admin.home')  active @endif">
+            <li class="menu @if (Route::currentRouteName() == 'admin.home') active @endif">
 
-                <a href="{{route('admin.home')}}" data-active="false" class="menu-toggle">
+                <a href="{{ route('admin.home') }}" data-active="false" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -31,7 +31,7 @@
 
 
 
-            <li class="menu @if (Route::currentRouteName()=='building.requests')  active @endif">
+            <li class="menu @if (Route::currentRouteName() == 'building.requests') active @endif">
                 <a href="{{ route('building.requests') }}" data-active="true" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
@@ -52,8 +52,8 @@
                 </svg>
             </li>
 
-            <li class="menu @if (Route::currentRouteName()=='building.approved')  active @endif ">
-                <a href="{{ route('building.approved') }}" data-active="true" class="menu-toggle">
+            <li class="menu @if (Route::currentRouteName() == 'building.approved') active @endif ">
+                <a href="{{ route('building.index') }}" data-active="true" class="menu-toggle">
                     <div class="base-menu">
                         <div class="base-icons">
                             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" stroke="currentColor"
@@ -67,9 +67,9 @@
                         <span>Building</span>
                     </div>
                 </a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="feather feather-chevron-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-chevron-left">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </li>

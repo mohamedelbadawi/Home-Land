@@ -16,6 +16,7 @@ class CreateBuildingsTable extends Migration
         Schema::create('buildings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('address');
             $table->enum('type', ['sell', 'rent']);
             $table->integer('beds');
             $table->integer('baths');
