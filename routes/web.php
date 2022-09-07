@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\HomeController;
+use App\Models\Building;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,14 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
-
+Route::get('/building/{building}', [HomeController::class, 'viewBuilding'])->name('building.view');
 
 Route::group(['prefix' => 'admin', 'middleware' => "auth"], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.home');

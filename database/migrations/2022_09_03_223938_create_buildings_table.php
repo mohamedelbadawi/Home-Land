@@ -18,6 +18,8 @@ class CreateBuildingsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->enum('type', ['sell', 'rent']);
+            $table->year('year_built');
+            $table->decimal('price_sq');
             $table->integer('beds');
             $table->integer('baths');
             $table->bigInteger('price');

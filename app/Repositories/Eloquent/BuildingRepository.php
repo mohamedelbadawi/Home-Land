@@ -43,6 +43,10 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     {
         return $this->model->where($key, $value);
     }
+    public function with($attr)
+    {
+        return $this->model->with([$attr]);
+    }
 
     public function randomApprovedBuildings($number)
     {

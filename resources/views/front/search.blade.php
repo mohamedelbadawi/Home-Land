@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+@include('front.header')
+@include('front.search-form')
     <div class="site-section site-section-sm bg-light">
         <div class="container">
             @foreach ($buildings as $building)
