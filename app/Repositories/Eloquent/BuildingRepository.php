@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Building;
+use App\Models\User;
 use App\Repositories\BuildingRepositoryInterface;
 use App\Repositories\Eloquent\BaseRepository;
 
@@ -55,7 +56,7 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     }
     public function pendingBuildings()
     {
-        return $this->model->with(['agent', 'images'])->where('status', 'pending')->paginate(50);
+        return $this->model->with(['agent', 'images'])->where('status', 'pending')->get();
     }
 
     public function approvedBuildings()
@@ -72,5 +73,9 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     public function update($data, Building $building)
     {
         return $building->update($data);
+    }
+    public function agentBuildings(User $user)
+    {
+        return $this->model->where('user_id', $user->id)->with(['images'])->paginate(15);
     }
 }

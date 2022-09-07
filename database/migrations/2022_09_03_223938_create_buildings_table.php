@@ -25,6 +25,7 @@ class CreateBuildingsTable extends Migration
             $table->bigInteger('price');
             $table->text('description');
             $table->decimal('sq');
+            $table->integer('views')->default(0);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('country_id')->constrained()->cascadeOnDelete();
             $table->foreignId('city_id')->constrained()->cascadeOnDelete();

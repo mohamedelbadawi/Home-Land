@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Building;
 use Illuminate\Foundation\Http\FormRequest;
 
-class addBuildingRequest extends FormRequest
+class updateBuildingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,14 @@ class addBuildingRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $currBuilding = Building::FindOrFail($this->building);
+
+        if (auth()->user()->hasRole('admin')) {
+            return true;
+        } else if ($currBuilding->user_id == auth()->id()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -23,6 +31,7 @@ class addBuildingRequest extends FormRequest
      */
     public function rules()
     {
+        dd($this->building);
         return [
             'name' => 'required',
             'price' => 'required',
@@ -35,8 +44,7 @@ class addBuildingRequest extends FormRequest
             'country_id' => 'required',
             'type' => 'required',
             'description' => 'required',
-            'images' => 'required',
-
+            'images' => 'nullable',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addBuildingRequest;
+use App\Http\Requests\updateBuildingRequest;
 use App\Models\Building;
 use App\Models\Image;
 use App\Repositories\BuildingRepositoryInterface;
@@ -46,8 +47,6 @@ class BuildingController extends Controller
     public function getApprovedBuildings(Request $request)
     {
 
-
-
         $buildings = $this->buildingRepository->approvedBuildings();
         return Datatables::of($buildings)->addIndexColumn()->make(true);
     }
@@ -72,6 +71,38 @@ class BuildingController extends Controller
             Alert::error('Error', $e->getMessage());
         }
         return redirect()->route('building.requests');
+    }
+
+
+
+    public function updateBuilding(updateBuildingRequest $request, Building $building)
+    {
+
+        try {
+            $attr = $request->except('images');
+            $attr['user_id'] = Auth::id();
+            if ($request->has('images')) {
+                foreach ($building->images as $image) {
+                    $this->deleteImage($image->name);
+                    $image->delete();
+                }
+                foreach ($request->images as $image) {
+                    $currImage = $this->uploadImage($image, 'assets/images/', 2000, $building->name);
+
+                    Image::create(['name' => $currImage, 'imageable_id' => $building->id, 'imageable_type' => Building::class]);
+                }
+            }
+            $this->buildingRepository->update($attr, $building);
+            Alert::success('Congrats', 'building updated successfully');
+        } catch (\Throwable $th) {
+            Alert::error('Error', $e->getMessage());
+        }
+        if (auth()->user()->hasRole('admin')) {
+
+            return redirect()->route('building.approved');
+        } else {
+            return redirect()->route('agent.home');
+        }
     }
 
 

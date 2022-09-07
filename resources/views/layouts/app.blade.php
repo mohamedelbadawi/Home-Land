@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Homeland &mdash; Colorlib Website Template</title>
+    <title>Homeland </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/fonts/flaticon/font/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/fl-bigmug-line.css') }}">
-
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/aos.css') }}">
 

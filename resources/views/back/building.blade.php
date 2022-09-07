@@ -81,6 +81,9 @@
                             <input type="text" class="form-control" placeholder="name" name="name">
                         </div>
                         <div class="form-group">
+                            <input type="text" class="form-control" placeholder="address" name="address">
+                        </div>
+                        <div class="form-group">
                             <input type="number" class="form-control" placeholder="price" name="price">
                         </div>
                         <div class="form-group">
@@ -91,6 +94,14 @@
                         </div>
                         <div class="form-group">
                             <input type="number" class="form-control" placeholder="baths" name="baths">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" placeholder="sq price" name="price_sq"
+                                value="{{ $building->price_sq }}">
+                        </div>
+                        <div class="form-group">
+                            <input min="1900" max="2099" step="1" id="datepicker" class="form-control"
+                                placeholder="built year" name="year_built" value="{{ $building->year_built }}">
                         </div>
                         <div class="form-group">
 

@@ -31,7 +31,8 @@
                                 @foreach ($requests as $request)
                                     <tr>
                                         <td>{{ $request->name }}</td>
-                                        <td>{{ $request->name }}</td>
+                                        <td> <img src="{{ asset('assets/images/' . $request->images->first()->name) }}"
+                                                alt="" style="width: 50px;height:50px;"></td>
                                         <td>{{ $request->agent->name }}</td>
                                         <td>{{ $request->price }}</td>
                                         <td>{{ $request->sq }}</td>
@@ -126,7 +127,6 @@
 @endsection
 
 @section('js')
-    
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/buffer.min.js"
         type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/filetype.min.js"
@@ -134,7 +134,7 @@
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/piexif.min.js"
         type="text/javascript"></script>
 
- 
+
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/sortable.min.js"
         type="text/javascript"></script>
 
@@ -160,7 +160,7 @@
     <script>
         $('#html5-extension').DataTable({
 
-                
+
             dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
             buttons: {
                 buttons: [{

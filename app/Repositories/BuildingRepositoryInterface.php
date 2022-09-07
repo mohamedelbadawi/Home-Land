@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Building;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -21,4 +22,5 @@ interface BuildingRepositoryInterface
     public function update($data, Building $building);
     public function randomApprovedBuildings($number);
     public function with($attr);
+    public function agentBuildings(User $user);
 }

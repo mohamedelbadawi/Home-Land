@@ -62,6 +62,7 @@ class HomeController extends Controller
 
     public function viewBuilding(Building $building)
     {
+        $building->update(['views' => $building->views + 1]);
         return view('front.singleBuilding', compact('building'));
     }
 }

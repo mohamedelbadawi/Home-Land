@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\HomeController;
 use App\Models\Building;
@@ -35,4 +36,10 @@ Route::group(['prefix' => 'admin', 'middleware' => "auth"], function () {
     Route::get('/getApproved', [BuildingController::class, 'getApprovedBuildings'])->name('building.approved');
     Route::post('/buildings/create', [BuildingController::class, 'addBuilding'])->name('building.add');
     Route::post('/buildings/updateStatus/{building}', [BuildingController::class, 'updateBuildingStatus'])->name('building.updateStatus');
+    // Route::post('buildings/update/{building}', [BuildingController::class, 'updateBuilding'])->name('building.update');
+});
+
+Route::group(['prefix' => 'agent', 'middleware' => "auth"], function () {
+    Route::post('buildings/update/{building}', [BuildingController::class, 'updateBuilding'])->name('building.update');
+    Route::get('/dashboard', [AgentController::class, 'index'])->name('agent.home');
 });

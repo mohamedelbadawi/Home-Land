@@ -29,7 +29,7 @@
                             <li class="active">
                                 <a href="{{ route('home') }}">Home</a>
                             </li>
-                            <li><a href="buy.html">Agent</a></li>
+                            <li><a href="buy.html" data-toggle="modal" data-target="#agentModal">Agent</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -39,3 +39,25 @@
         </div>
     </div>
 </div>
+{{-- agent modal --}}
+<div class="modal fade" id="agentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Agent Registration</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you want to be a Agent and add your buildings in website?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="{{ route('register') }}" type="button" class="btn btn-primary">Be an agent</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- agent modal --}}

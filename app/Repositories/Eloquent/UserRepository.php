@@ -40,4 +40,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             return $user->hasRole('agent');
         })->count();
     }
+
+    public function agentBuildings()
+    {
+        return $this->model->buildings;
+    }
 }
