@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addBuildingRequest;
+use App\Http\Requests\deleteBuildingRequest;
 use App\Http\Requests\updateBuildingRequest;
 use App\Models\Building;
 use App\Models\Image;
+use App\Notifications\BuildingNotification;
 use App\Repositories\BuildingRepositoryInterface;
 use App\Repositories\CityRepositoryInterface;
 use App\Repositories\CountryRepositoryInterface;
@@ -17,6 +19,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use DataTables;
+// use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 use PharIo\Version\BuildMetaData;
 
 class BuildingController extends Controller
@@ -66,11 +70,19 @@ class BuildingController extends Controller
                     Image::create(['name' => $currImage, 'imageable_id' => $building->id, 'imageable_type' => Building::class]);
                 }
             }
+
+            $buildingData = [
+                'name' => $building->name,
+                'building_id' => $building->id,
+                'body' => "your building is under review we will be in touch with you as soon as possible"
+
+            ];
+            FacadesNotification::send(Auth::user(), new BuildingNotification($buildingData));
             Alert::success('Congrats', 'Your request is submitted');
         } catch (Exception $e) {
             Alert::error('Error', $e->getMessage());
         }
-        return redirect()->route('building.requests');
+        return Auth::user()->hasRole('admin') ? redirect()->route('admin.home') : redirect()->route('agent.home');
     }
 
 
@@ -100,12 +112,7 @@ class BuildingController extends Controller
         } catch (\Throwable $th) {
             Alert::error('Error', $e->getMessage());
         }
-        if (auth()->user()->hasRole('admin')) {
-
-            return redirect()->route('building.approved');
-        } else {
-            return redirect()->route('agent.home');
-        }
+        return Auth::user()->hasRole('admin') ? redirect()->route('admin.home') : redirect()->route('agent.home');
     }
 
 
@@ -113,10 +120,50 @@ class BuildingController extends Controller
     {
         try {
             $this->buildingRepository->update(['status' => $request->status], $building);
+
+            if ($request->status == 'approved') {
+                $buildingData = [
+                    'name' => $building->agent->name,
+                    'building_id' => $building->id,
+                    'body' => "your building " . $building->name . "  is approved and published in our website"
+
+                ];
+            } else if ($request->status == 'pending') {
+                $buildingData = [
+                    'name' => $building->agent->name,
+                    'building_id' => $building->id,
+                    'body' => "your building" . $building->name . " is under review we will be in touch with you as soon as possible"
+
+                ];
+            } else if ($request->status == 'canceled') {
+                $buildingData = [
+                    'name' => $building->agent->name,
+                    'building_id' => $building->id,
+                    'body' => "your building request " . $building->name . "  is canceled because it didn't meet our polices"
+                ];
+            }
+            FacadesNotification::send($building->agent, new BuildingNotification($buildingData));
             Alert::success('Congrats', 'building status updated successfully');
         } catch (Exception $e) {
             Alert::error('Error', $e->getMessage());
         }
         return redirect()->route('building.requests');
+    }
+
+
+    public function deleteBuilding(deleteBuildingRequest $request, $id)
+    {
+        try {
+            $building = Building::findOrFail($id);
+            $this->buildingRepository->delete($building);
+
+
+            Alert::success('Congrats', 'building status deleted successfully');
+        } catch (Exception $e) {
+            Alert::error('Error', $e->getMessage());
+        }
+
+
+        return Auth::user()->hasRole('admin') ? redirect()->route('admin.home') : redirect()->route('agent.home');
     }
 }

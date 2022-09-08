@@ -8,7 +8,7 @@
                 @foreach ($buildings as $building)
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="property-entry h-100">
-                            <a href="property-details.html" class="property-thumbnail">
+                            <a href="{{route('building.view',$building->id)}}" class="property-thumbnail">
                                 <div class="offer-type-wrap">
                                     <span
                                         class="offer-type @if ($building->type == 'rent') bg-danger @else bg-success @endif">{{ $building->type }}</span>

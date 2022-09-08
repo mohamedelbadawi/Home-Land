@@ -21,7 +21,7 @@
                 <div class="col-lg-8">
                     <div>
                         <div class="slide-one-item home-slider owl-carousel">
-                            @foreach ($building->images->random(3) as $image)
+                            @foreach ($building->images->random(2) as $image)
                                 <div><img src="{{ asset('assets/images/' . $image->name) }}" alt="Image"
                                         class="img-fluid"></div>
                             @endforeach

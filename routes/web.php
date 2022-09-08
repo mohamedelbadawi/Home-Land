@@ -23,6 +23,8 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -30,16 +32,23 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/building/{building}', [HomeController::class, 'viewBuilding'])->name('building.view');
 
 Route::group(['prefix' => 'admin', 'middleware' => "auth"], function () {
+    Route::get('/', function () {
+        return redirect()->route('admin.home');
+    });
     Route::get('/dashboard', [AdminController::class, 'index'])->middleware('IsAdmin')->name('admin.home');
     Route::get('/requests', [BuildingController::class, 'getRequests'])->middleware('IsAdmin')->name('building.requests');
-    Route::get('/buildings', [BuildingController::class, 'buildings'])->name('building.index');
-    Route::get('/getApproved', [BuildingController::class, 'getApprovedBuildings'])->middleware('IsAdmin')->name('building.approved');
+    Route::get('/buildings', [BuildingController::class, 'buildings'])->middleware('IsAdmin')->name('building.index');
     Route::post('/buildings/create', [BuildingController::class, 'addBuilding'])->name('building.add');
     Route::post('/buildings/updateStatus/{building}', [BuildingController::class, 'updateBuildingStatus'])->middleware('IsAdmin')->name('building.updateStatus');
-    // Route::post('buildings/update/{building}', [BuildingController::class, 'updateBuilding'])->name('building.update');
+    Route::post('/building/delete/{building}', [BuildingController::class, 'deleteBuilding'])->name('building.delete');
+    Route::get('/account', [AdminController::class, 'accountSettings'])->name('admin.account');
+    Route::post('/account/update', [AdminController::class, 'updateAccount'])->name('admin.account.update');
+
 });
 
 Route::group(['prefix' => 'agent', 'middleware' => "auth"], function () {
-    Route::post('/buildings/update/{id}', [BuildingController::class, 'updateBuilding'])->name('building.update');
     Route::get('/dashboard', [AgentController::class, 'index'])->name('agent.home');
+    Route::post('/buildings/update/{id}', [BuildingController::class, 'updateBuilding'])->name('building.update');
+    Route::get('/account', [AgentController::class, 'accountSettings'])->name('agent.account');
+    Route::post('/account/update', [AgentController::class, 'updateAccount'])->name('agent.account.update');
 });

@@ -40,7 +40,15 @@
                                         <td>{{ $building->price }}</td>
                                         <td>{{ $building->sq }}</td>
                                         <td><button class="btn btn-primary" data-toggle="modal"
-                                                data-target="#slideupModal-{{ $building->id }}">View</button></td>
+                                                data-target="#slideupModal-{{ $building->id }}">View</button>
+                                            @can('edit building')
+                                                <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#slideupModal-{{ $building->id }}">update status</button>
+                                            @endcan
+                                            <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#delete-{{ $building->id }}"> Delete</button>
+
+                                        </td>
                                     </tr>
                                     @include('back.partials.viewBuildingModal')
                                 @endforeach
@@ -154,6 +162,93 @@
         </div>
     </div>
 
+
+
+    @foreach ($buildings as $building)
+        <div id="slideupModal-{{ $building->id }}" class="modal animated slideInUp custo-slideInUp" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ $building->name }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>
+
+                            {{ $building->name }} , beds: {{ $building->beds }} , baths: {{ $building->baths }} , price:
+                            {{ $building->price }}
+                            <br>
+
+                        </h6>
+                        <p class="modal-text">
+                            {{ $building->description }}
+                        </p>
+                    </div>
+
+                    <form action="{{ route('building.updateStatus', $building->id) }}" method="post">
+                        @csrf
+                        <div class="form-group  ml-2" style="width: 90%">
+                            <select class="selectpicker form-control" name="status" data-live-search="true">
+
+                                <option class="text-warning" value="pending" {{ $building->status == 'pending' }}>Pending
+                                </option>
+                                <option class="text-danger" value="canceled" {{ $building->status == 'canceled' }}>
+                                    Canceled
+                                </option>
+                                <option class="text-success" value="approved" {{ $building->status == 'approved' }}>
+                                    Approved
+                                </option>
+
+
+                            </select>
+                        </div>
+
+                        <div class="modal-footer md-button">
+                            <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>
+                                Discard</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        {{-- delete modal --}}
+        <div class="modal fade" id="delete-{{ $building->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="{{ route('building.delete', $building->id) }}" method="post">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ $building->name }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this building?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        {{-- end delete modal --}}
+    @endforeach
 
 
 

@@ -6,12 +6,13 @@ use App\Models\Building;
 use App\Models\User;
 use App\Repositories\BuildingRepositoryInterface;
 use App\Repositories\Eloquent\BaseRepository;
-
+use App\traits\ImageHelper;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class BuildingRepository extends BaseRepository implements BuildingRepositoryInterface
 {
+    use ImageHelper;
     public function __construct(Building $model)
     {
         parent::__construct($model);
@@ -76,6 +77,16 @@ class BuildingRepository extends BaseRepository implements BuildingRepositoryInt
     }
     public function agentBuildings(User $user)
     {
-        return $this->model->where('user_id', $user->id)->with(['images'])->paginate(15);
+        return $this->model->where('user_id', $user->id)->with(['images'])->latest()->paginate(15);
+    }
+
+
+    public function delete(Building $building)
+    {
+        foreach ($building->images as $image) {
+            $this->deleteImage($image->name);
+            $image->delete();
+        }
+        return $building->delete();
     }
 }

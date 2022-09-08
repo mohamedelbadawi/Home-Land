@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class addBuildingRequest extends FormRequest
+class updateProfileSettingsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,6 +13,7 @@ class addBuildingRequest extends FormRequest
      */
     public function authorize()
     {
+
         return true;
     }
 
@@ -25,18 +26,8 @@ class addBuildingRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'price' => 'required',
-            'sq' => 'required',
-            'beds' => 'required',
-            'baths' => 'required',
-            'price_sq' => 'required',
-            'year_built' => 'required',
-            'city_id' => 'required',
-            'country_id' => 'required',
-            'type' => 'required',
-            'description' => 'required',
-            'images' => 'required|min:2|max:5',
-
+            'email' => 'required',
+            'password' => 'nullable'
         ];
     }
 }

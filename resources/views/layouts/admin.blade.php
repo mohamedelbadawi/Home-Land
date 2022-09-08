@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>CORK Admin Template - Analytics Dashboard</title>
+    <title>Dashboard</title>
     <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico" />
     <link href="{{ asset('assets/back/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/back/js/loader.js') }}"></script>
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/back/datatable/dt-global_style.css') }}">
 
     @livewireStyles
- 
+
 
     @yield('css')
 </head>
@@ -61,13 +61,12 @@
             @include('layouts.partials.admin_side')
             <!-- END SIDEBAR -->
 
-            <div class="text-center" style="width: 300px;height:30px">
+            <div class="text-center" id="errorAlert" style="display: none;">
                 @if ($errors->any())
                     @foreach ($errors->all() as $error)
                         <div class="alert alert-danger mb-1" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ...
-                                </svg></button>
-                            {{ $error }}</button>
+
+                            {{ $error }}
                         </div>
                     @endforeach
                 @endif
@@ -102,9 +101,21 @@
         type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.0/js/plugins/sortable.min.js"
         type="text/javascript"></script>
-        
-        @yield('js')
-        @livewireScripts
+
+    @yield('js')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        var hasErrors = {{ $errors->count() > 0 ? true : false }};
+        if (hasErrors) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: $('#errorAlert').html(),
+                showCloseButton: true
+            })
+        }
+    </script>
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\showBuildingRequest;
 use App\Models\Building;
 use App\Repositories\BuildingRepositoryInterface;
 use App\Repositories\CityRepositoryInterface;
@@ -60,7 +61,7 @@ class HomeController extends Controller
     }
 
 
-    public function viewBuilding(Building $building)
+    public function viewBuilding(showBuildingRequest $request, Building $building)
     {
         $building->update(['views' => $building->views + 1]);
         return view('front.singleBuilding', compact('building'));

@@ -14,7 +14,7 @@ class updateBuildingRequest extends FormRequest
      */
     public function authorize()
     {
-        // dd($this->id);
+        
         $currBuilding = Building::FindOrFail($this->id);
 
         if (auth()->user()->hasRole('admin')) {

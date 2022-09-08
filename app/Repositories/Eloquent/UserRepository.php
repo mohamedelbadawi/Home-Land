@@ -45,4 +45,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->model->buildings;
     }
+    public function update($data, User $user)
+    {
+        return $user->update($data);
+    }
 }
