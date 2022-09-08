@@ -14,7 +14,8 @@ class updateBuildingRequest extends FormRequest
      */
     public function authorize()
     {
-        $currBuilding = Building::FindOrFail($this->building);
+        // dd($this->id);
+        $currBuilding = Building::FindOrFail($this->id);
 
         if (auth()->user()->hasRole('admin')) {
             return true;
@@ -31,7 +32,7 @@ class updateBuildingRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->building);
+        // dd($this->id);
         return [
             'name' => 'required',
             'price' => 'required',

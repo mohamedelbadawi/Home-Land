@@ -30,16 +30,16 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/building/{building}', [HomeController::class, 'viewBuilding'])->name('building.view');
 
 Route::group(['prefix' => 'admin', 'middleware' => "auth"], function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.home');
-    Route::get('/requests', [BuildingController::class, 'getRequests'])->name('building.requests');
+    Route::get('/dashboard', [AdminController::class, 'index'])->middleware('IsAdmin')->name('admin.home');
+    Route::get('/requests', [BuildingController::class, 'getRequests'])->middleware('IsAdmin')->name('building.requests');
     Route::get('/buildings', [BuildingController::class, 'buildings'])->name('building.index');
-    Route::get('/getApproved', [BuildingController::class, 'getApprovedBuildings'])->name('building.approved');
+    Route::get('/getApproved', [BuildingController::class, 'getApprovedBuildings'])->middleware('IsAdmin')->name('building.approved');
     Route::post('/buildings/create', [BuildingController::class, 'addBuilding'])->name('building.add');
-    Route::post('/buildings/updateStatus/{building}', [BuildingController::class, 'updateBuildingStatus'])->name('building.updateStatus');
+    Route::post('/buildings/updateStatus/{building}', [BuildingController::class, 'updateBuildingStatus'])->middleware('IsAdmin')->name('building.updateStatus');
     // Route::post('buildings/update/{building}', [BuildingController::class, 'updateBuilding'])->name('building.update');
 });
 
 Route::group(['prefix' => 'agent', 'middleware' => "auth"], function () {
-    Route::post('buildings/update/{building}', [BuildingController::class, 'updateBuilding'])->name('building.update');
+    Route::post('/buildings/update/{id}', [BuildingController::class, 'updateBuilding'])->name('building.update');
     Route::get('/dashboard', [AgentController::class, 'index'])->name('agent.home');
 });

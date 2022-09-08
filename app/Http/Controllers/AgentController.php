@@ -25,8 +25,6 @@ class AgentController extends Controller
         $buildings = $this->buildingRepository->agentBuildings($auth);
         $cities = $this->cityRepository->all();
         $countries = $this->countryRepository->all();
-        return view('front.agent', compact('buildings','cities','countries'));
+        return view('front.agent', compact('buildings', 'cities', 'countries'));
     }
-
-    
 }

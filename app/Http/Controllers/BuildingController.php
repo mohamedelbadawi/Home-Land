@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use DataTables;
-
+use PharIo\Version\BuildMetaData;
 
 class BuildingController extends Controller
 {
@@ -75,10 +75,12 @@ class BuildingController extends Controller
 
 
 
-    public function updateBuilding(updateBuildingRequest $request, Building $building)
+    public function updateBuilding(updateBuildingRequest $request, $id)
     {
 
         try {
+            $building = Building::findOrFail($id);
+
             $attr = $request->except('images');
             $attr['user_id'] = Auth::id();
             if ($request->has('images')) {
@@ -92,6 +94,7 @@ class BuildingController extends Controller
                     Image::create(['name' => $currImage, 'imageable_id' => $building->id, 'imageable_type' => Building::class]);
                 }
             }
+
             $this->buildingRepository->update($attr, $building);
             Alert::success('Congrats', 'building updated successfully');
         } catch (\Throwable $th) {
