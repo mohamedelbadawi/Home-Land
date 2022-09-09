@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Models\User;
 use App\Repositories\EloquentRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
@@ -40,7 +41,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             return $user->hasRole('agent');
         })->count();
     }
-
+    public function with( $attr )
+    {
+        return $this->model->with([$attr]);
+    }
     public function agentBuildings()
     {
         return $this->model->buildings;

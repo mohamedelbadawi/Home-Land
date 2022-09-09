@@ -72,8 +72,8 @@
                     </svg>
                 </li>
 
-                <li class="menu @if (Route::currentRouteName() == 'building.index') active @endif ">
-                    <a href="{{ route('building.index') }}" data-active="true" class="menu-toggle">
+                <li class="menu @if (Route::currentRouteName() == 'users.index') active @endif ">
+                    <a href="{{ route('users.index') }}" data-active="true" class="menu-toggle">
                         <div class="base-menu">
                             <div class="base-icons">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -84,7 +84,7 @@
                                     <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
                                 </svg>
                             </div>
-                            <span>Building</span>
+                            <span>users</span>
                         </div>
                     </a>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

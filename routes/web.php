@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Models\Building;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => "auth"], function () {
     Route::post('/building/delete/{building}', [BuildingController::class, 'deleteBuilding'])->name('building.delete');
     Route::get('/account', [AdminController::class, 'accountSettings'])->name('admin.account');
     Route::post('/account/update', [AdminController::class, 'updateAccount'])->name('admin.account.update');
-
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 });
 
 Route::group(['prefix' => 'agent', 'middleware' => "auth"], function () {
